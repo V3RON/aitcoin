@@ -6,7 +6,7 @@ public class Database {
     private static Database instance = null;
     private Connection c = null;
 
-    protected Database() throws SQLException {
+    private Database() throws SQLException {
         this.connect();
     }
 
@@ -17,7 +17,7 @@ public class Database {
         return instance;
     }
 
-    public void connect() throws SQLException {
+    private void connect() throws SQLException {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:chain.db");
@@ -36,17 +36,14 @@ public class Database {
         //TODO
     }
 
-    public ResultSet query(String sql) throws SQLException {
-        Statement stmt = c.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        stmt.close();
-        return rs;
-    }
-
     public void update(String sql) throws SQLException {
         Statement stmt = c.createStatement();
         stmt.executeUpdate(sql);
         stmt.close();
+    }
+
+    public Statement getStatement() throws SQLException {
+        return c.createStatement();
     }
 
     public void close() throws SQLException {

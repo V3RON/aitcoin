@@ -3,11 +3,12 @@ package pl.aitwar.aitcoin.dictionary;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Base64;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Block {
-    private Date timestamp;
+    private Timestamp timestamp;
     private String hash;
     private String prevHash;
     private String data;
@@ -15,7 +16,7 @@ public class Block {
     public Block() { }
 
     public Block(String data) {
-        this.setTimestamp(new Date());
+        this.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         this.setData(data);
         this.setPrevHash(null);
     }
@@ -37,7 +38,7 @@ public class Block {
         return hashedString;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
@@ -53,7 +54,7 @@ public class Block {
         return data;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
