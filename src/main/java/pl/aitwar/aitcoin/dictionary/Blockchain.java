@@ -2,9 +2,11 @@ package pl.aitwar.aitcoin.dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Blockchain {
     private List<Block> chain;
+    private static Logger logger = Logger.getLogger(Blockchain.class.getName());
 
     public Blockchain() {
         generateChain();
@@ -26,6 +28,8 @@ public class Blockchain {
         if(chain.size() > 0)
             b.setPrevHash(this.chain.get(chain.size()-1).getHash());
         this.chain.add(b.assemble());
+
+        logger.info("Block ["+b.getHash()+"] has been added!");
     }
 
     public void add(ArrayList<Block> bl) {
@@ -38,8 +42,7 @@ public class Blockchain {
     public String toString() {
         StringBuilder res = new StringBuilder();
         for(Block b : this.chain) {
-            res.append(b.getPrevHash()).append(" ").append(b.getHash()).append(" ").append(b.getTimestamp()).append(" ")
-                    .append(b.getData()).append("\n");
+            res.append(b).append("\n");
         }
         return res.toString();
     }
@@ -80,11 +83,13 @@ public class Blockchain {
     }
 
     public ArrayList<Block> getAll() {
-        return new ArrayList<Block>(this.chain);
+        return new ArrayList<>(this.chain);
     }
 
     private void generateChain() {
-        chain = new ArrayList<Block>();
+        chain = new ArrayList<>();
         chain.add(createGenesis());
+
+        logger.info("New chain generated!");
     }
 }

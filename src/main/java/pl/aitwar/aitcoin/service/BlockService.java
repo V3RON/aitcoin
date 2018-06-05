@@ -7,8 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class BlockService {
+    private static Logger logger = Logger.getLogger(BlockService.class.getName());
+
     public static ArrayList<Block> getBlocks() throws SQLException {
         ArrayList<Block> ret = new ArrayList<>();
         try(Statement stmt = Database.getInstance().getStatement()) {
@@ -22,6 +25,8 @@ public class BlockService {
                 ret.add(b);
             }
         }
+
+        logger.info("Blocks ("+ret.size()+") have been downloaded from database!");
         return ret;
     }
 
@@ -30,5 +35,7 @@ public class BlockService {
             Database.getInstance().update("INSERT OR IGNORE INTO blocks VALUES ("
                     + "\'" + b.getData() + "\',\'" + b.getPrevHash() + "\',\'" + b.getHash() + "\',\'" + b.getTimestamp() + "\')");
         }
+
+        logger.info("Blocks ("+toUpdate.size()+") have been saved to database!");
     }
 }

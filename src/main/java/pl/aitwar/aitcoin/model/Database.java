@@ -1,10 +1,12 @@
 package pl.aitwar.aitcoin.model;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class Database {
     private static Database instance = null;
     private Connection c = null;
+    private Logger logger = Logger.getLogger(Database.class.getName());
 
     private Database() throws SQLException {
         this.connect();
@@ -30,6 +32,8 @@ public class Database {
         ResultSet tables = dbm.getTables(null, null, "blocks", null);
         if(!tables.next())
             this.generate();
+
+        logger.info("Connected!");
     }
 
     public void isConnected() {
@@ -62,5 +66,7 @@ public class Database {
                 ")"
         );
         stmt.close();
+
+        logger.info("Tables have been generated!");
     }
 }

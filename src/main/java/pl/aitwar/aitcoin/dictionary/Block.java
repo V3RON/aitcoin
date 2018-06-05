@@ -74,4 +74,9 @@ public class Block {
         this.setHash(computeHash(this));
         return this;
     }
+
+    @Override
+    public String toString() {
+        return this.getPrevHash()+" "+this.getHash()+" "+this.getTimestamp()+" "+this.getData();
+    }
 }
